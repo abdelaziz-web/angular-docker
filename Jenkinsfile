@@ -3,6 +3,7 @@ pipeline {
     
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-op')
+        DOCKER_TEST_IMAGE = "awwin/new-angular:test"
     }
     
     stages {
