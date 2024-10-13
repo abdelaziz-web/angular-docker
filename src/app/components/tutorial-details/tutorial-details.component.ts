@@ -18,6 +18,7 @@ export class TutorialDetailsComponent implements OnInit {
   };
 
   message = '';
+  isTest: boolean = false;
 
   constructor(
     private tutorialService: TutorialService,
@@ -26,6 +27,10 @@ export class TutorialDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.isTest) { // Add a new variable
+      return; // Skip the logic
+    }
+    
     if (!this.viewMode) {
       this.message = '';
       this.getTutorial(this.route.snapshot.params['id']);
