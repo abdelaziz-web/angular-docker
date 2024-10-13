@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     bat "docker push awwin/new-angular:${env.BUILD_NUMBER}"
-                    bat "docker push awwin/new-angular:latest"
+                 
                 }
             }
         }
