@@ -15,29 +15,26 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("awwin/new-angular:${env.BUILD_NUMBER}")
-                }
-            }
-        }
-
-        stage('Login to DockerHub') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', "${DOCKERHUB_CREDENTIALS}") {
-                        echo "Logged into DockerHub successfully!"
-                    }
+                    bat "docker build -t awwin/new-angular:${env.BUILD_NUMBER} ."
                 }
             }
         }
         
+        stage('Login to DockerHub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-op', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                        bat "echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
+                    }
+                }
+            }
+        }
         
         stage('Push to DockerHub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                        docker.image("awwin/new-angular:${env.BUILD_NUMBER}").push()
-                        docker.image("awwin/new-angular:${env.BUILD_NUMBER}").push("latest")
-                    }
+                    bat "docker push awwin/new-angular:${env.BUILD_NUMBER}"
+                    bat "docker push awwin/new-angular:latest"
                 }
             }
         }
@@ -45,15 +42,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    
                     bat "docker run -d -p 4201:80 awwin/new-angular:${env.BUILD_NUMBER}"
                 }
             }
         }
     }
     
-  
+    post {
+        always {
+            bat "docker logout"
+        }
+    }
 }
-
-
-
