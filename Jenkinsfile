@@ -29,15 +29,17 @@ pipeline {
             }
         }
         
-        stage('Login to DockerHub') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-op', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
-                        bat "echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USERNAME% --password-stdin"
-                    }
-                }
+         stage('Login to DockerHub') {
+          steps {
+           script {
+            // Replace "awwin" with your DockerHub username and "dckr_pat_GNPpm2o6qaOuxZfh7Y0S7pMpqZ0" with your actual password.
+            bat "echo ${DOCKERHUB_CREDENTIALS_PSW}"
+            bat "echo ${DOCKERHUB_CREDENTIALS_USR}"
+            // Use the echo command to pass the password to docker login.
+            bat "docker login -u ${DOCKERHUB_CREDENTIALS_USR} -p ${DOCKERHUB_CREDENTIALS_PSW}"
             }
-        }
+          }
+      }
         
         stage('Push to DockerHub') {
             steps {
