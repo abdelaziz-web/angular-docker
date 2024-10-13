@@ -1,7 +1,8 @@
-<<<<<<< HEAD
+
 # Angular 17 example project: CRUD with Rest API
 
 Build an Angular 17 CRUD example App to consume Rest APIs, display, modify & search data.
+
 
 Tutorial Application in that:
 - Each Tutorial has id, title, description, published status.
@@ -102,4 +103,4 @@ The Spring Boot Server will export API at port `8081`.
 npm install
 ng serve --port 8081
 ```
->>>>>>> 0a91c4babd367f77fc87516ed529b00dae5da4ac
+
