@@ -19,6 +19,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Security Scan with Grype') {
+            steps {
+                script {
+                    // Run the Grype security scan on the built Docker image
+                    bat "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock anchore/grype awwin/new-angular:${env.BUILD_NUMBER}"
+                }
+            }
+        }
         
         stage('Login to DockerHub') {
             steps {
