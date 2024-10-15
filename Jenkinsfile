@@ -64,14 +64,24 @@ pipeline {
             }
         }
         
-        stage('Deploy') {
+        stage('Deploy back end') {
             steps {
                 script {
-                    bat "docker run -d -p 4201:80 awwin/new-angular:${env.BUILD_NUMBER}"
+                   
                      bat "docker run -d -p 8081:80 test-back-conc:test"
                 }
             }
         }
+
+         stage('Deploy front end') {
+            steps {
+                script {
+                    bat "docker run -d -p 4201:80 awwin/new-angular:${env.BUILD_NUMBER}"
+                   
+                }
+            }
+        }
+      
     }
     
     post {
